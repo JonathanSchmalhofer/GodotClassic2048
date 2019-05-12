@@ -13,8 +13,6 @@ export (int) var height
 
 # Swipe Variables
 onready var SwipeDirections = preload("res://addons/swipe-detector/directions.gd").new()
-onready var DirectionLabel = get_node("Values/Direction")
-onready var AngleLabel = get_node("Values/Angle/Value")
 
 # Piece Variables
 var possiblePawns = [
@@ -52,8 +50,7 @@ func blank_space_on_board():
 # Swiping
 
 func _on_SwipeDetector_swipe_ended( gesture ):
-	DirectionLabel.set_text(gesture.get_direction())
-	AngleLabel.set_text(str(gesture.get_direction_angle()))
+	pass
 
 func _on_SwipeDetector_swiped( gesture ):
 	if(SwipeDirections.DIRECTION_UP == gesture.get_direction()):
