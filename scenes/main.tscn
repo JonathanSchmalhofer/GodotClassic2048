@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/background.gd" type="Script" id=1]
 [ext_resource path="res://scenes/background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/gamegrid.gd" type="Script" id=3]
+[ext_resource path="res://addons/swipe-detector/swipe_detector.gd" type="Script" id=4]
+[ext_resource path="res://addons/swipe-detector/icon.png" type="Texture" id=5]
+[ext_resource path="res://scenes/admob.tscn" type="PackedScene" id=6]
 
 [node name="main" type="Node2D"]
 
@@ -18,4 +21,39 @@ offset = 128
 numberStartingPawns = 3
 width = 4
 height = 4
+
+[node name="SwipeDetector" type="Node" parent="."]
+script = ExtResource( 4 )
+__meta__ = {
+"_editor_icon": ExtResource( 5 )
+}
+
+[node name="Values" type="VBoxContainer" parent="SwipeDetector"]
+margin_top = 913.0
+margin_right = 208.0
+margin_bottom = 965.0
+
+[node name="Direction" type="Label" parent="SwipeDetector/Values"]
+margin_right = 208.0
+margin_bottom = 14.0
+text = "<Swipe>"
+
+[node name="Angle" type="HBoxContainer" parent="SwipeDetector/Values"]
+margin_top = 18.0
+margin_right = 208.0
+margin_bottom = 32.0
+
+[node name="Label" type="Label" parent="SwipeDetector/Values/Angle"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "Angle:"
+align = 2
+
+[node name="Value" type="Label" parent="SwipeDetector/Values/Angle"]
+margin_left = 44.0
+margin_right = 96.0
+margin_bottom = 14.0
+text = "<Angle>"
+
+[node name="admob" parent="." instance=ExtResource( 6 )]
 
