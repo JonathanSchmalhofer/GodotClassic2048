@@ -1,13 +1,13 @@
 extends Node2D
 
-export (PackedScene) var background;
-var columns = 4;
-var rows = 4;
-var xStart = 32;
-var yStart = 340;
+export (PackedScene) var background
+var columns = 4
+var rows = 4
+export (int) var xStart
+export (int) var yStart
 
 func _ready():
-	setup();
+	setup()
 
 func setup():
 	# Create anm instance of the background grid

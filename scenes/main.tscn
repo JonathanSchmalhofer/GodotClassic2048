@@ -1,34 +1,35 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/background.gd" type="Script" id=1]
 [ext_resource path="res://scenes/background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/gamegrid.gd" type="Script" id=3]
-[ext_resource path="res://addons/swipe-detector/swipe_detector.gd" type="Script" id=4]
-[ext_resource path="res://addons/swipe-detector/icon.png" type="Texture" id=5]
-[ext_resource path="res://scenes/admob.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/gamegrid.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/swipe-detector/swipe_detector.gd" type="Script" id=5]
+[ext_resource path="res://addons/swipe-detector/icon.png" type="Texture" id=6]
+[ext_resource path="res://scenes/admob.tscn" type="PackedScene" id=7]
 
 [node name="main" type="Node2D"]
 
 [node name="background" type="Node2D" parent="."]
 script = ExtResource( 1 )
 background = ExtResource( 2 )
+xStart = 32
+yStart = 340
 
 [node name="gamegrid" type="Node2D" parent="."]
 script = ExtResource( 3 )
-xStart = 96
-yStart = 784
-offset = 128
-numberStartingPawns = 3
-width = 4
-height = 4
+gamegrid = ExtResource( 4 )
+gridPosition = Vector2( 32, 340 )
+gridSize = Vector2( 4, 4 )
+tileSize = Vector2( 128, 128 )
 
 [node name="SwipeDetector" type="Node" parent="."]
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 __meta__ = {
-"_editor_icon": ExtResource( 5 )
+"_editor_icon": ExtResource( 6 )
 }
 
-[node name="admob" parent="." instance=ExtResource( 6 )]
+[node name="admob" parent="." instance=ExtResource( 7 )]
 
 [connection signal="swipe_ended" from="SwipeDetector" to="gamegrid" method="_on_SwipeDetector_swipe_ended"]
 [connection signal="swiped" from="SwipeDetector" to="gamegrid" method="_on_SwipeDetector_swiped"]

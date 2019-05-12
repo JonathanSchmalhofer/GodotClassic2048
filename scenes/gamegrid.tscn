@@ -1,0 +1,8 @@
+[gd_scene format=2]
+
+[node name="gamegrid" type="Node2D"]
+
+[node name="tilemap" type="TileMap" parent="."]
+cell_size = Vector2( 128, 128 )
+format = 1
+
