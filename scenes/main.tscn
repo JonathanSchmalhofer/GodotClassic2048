@@ -22,38 +22,40 @@ numberStartingPawns = 3
 width = 4
 height = 4
 
+[node name="Values" type="VBoxContainer" parent="gamegrid"]
+margin_top = 913.0
+margin_right = 208.0
+margin_bottom = 965.0
+
+[node name="Direction" type="Label" parent="gamegrid/Values"]
+margin_right = 208.0
+margin_bottom = 14.0
+text = "<Swipe>"
+
+[node name="Angle" type="HBoxContainer" parent="gamegrid/Values"]
+margin_top = 18.0
+margin_right = 208.0
+margin_bottom = 32.0
+
+[node name="Label" type="Label" parent="gamegrid/Values/Angle"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "Angle:"
+align = 2
+
+[node name="Value" type="Label" parent="gamegrid/Values/Angle"]
+margin_left = 44.0
+margin_right = 96.0
+margin_bottom = 14.0
+text = "<Angle>"
+
 [node name="SwipeDetector" type="Node" parent="."]
 script = ExtResource( 4 )
 __meta__ = {
 "_editor_icon": ExtResource( 5 )
 }
 
-[node name="Values" type="VBoxContainer" parent="SwipeDetector"]
-margin_top = 913.0
-margin_right = 208.0
-margin_bottom = 965.0
-
-[node name="Direction" type="Label" parent="SwipeDetector/Values"]
-margin_right = 208.0
-margin_bottom = 14.0
-text = "<Swipe>"
-
-[node name="Angle" type="HBoxContainer" parent="SwipeDetector/Values"]
-margin_top = 18.0
-margin_right = 208.0
-margin_bottom = 32.0
-
-[node name="Label" type="Label" parent="SwipeDetector/Values/Angle"]
-margin_right = 40.0
-margin_bottom = 14.0
-text = "Angle:"
-align = 2
-
-[node name="Value" type="Label" parent="SwipeDetector/Values/Angle"]
-margin_left = 44.0
-margin_right = 96.0
-margin_bottom = 14.0
-text = "<Angle>"
-
 [node name="admob" parent="." instance=ExtResource( 6 )]
 
+[connection signal="swipe_ended" from="SwipeDetector" to="gamegrid" method="_on_SwipeDetector_swipe_ended"]
+[connection signal="swiped" from="SwipeDetector" to="gamegrid" method="_on_SwipeDetector_swiped"]
