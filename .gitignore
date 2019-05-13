@@ -1,0 +1,12 @@
+# Godot-specific ignores
+.import/
+export.cfg
+export_presets.cfg
+
+# Mono-specific ignores
+.mono/
+
+# Built application files (Android)
+*.apk
+*.ap_
+*.aab
