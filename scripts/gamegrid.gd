@@ -96,7 +96,9 @@ func squeezeAndMerge(direction: int) -> void:
 				if currentChanged:
 					currentPointer += 1 # we have to revert the last decremt operation that was performed, as that was the cause for leaving the while-loop
 					var currentPawn = allPawns[tilesetCoordinates[idx].x][tilesetCoordinates[idx].y]
+					# do the animation
 					currentPawn.move(gridToPixelPosition(Vector2(tilesetCoordinates[currentPointer].x, tilesetCoordinates[currentPointer].y)))
+					# Copy over the tile object from old position to new position
 					allPawns[tilesetCoordinates[currentPointer].x][tilesetCoordinates[currentPointer].y] = currentPawn
 					allPawns[tilesetCoordinates[idx].x][tilesetCoordinates[idx].y] = null
 		#####################################
