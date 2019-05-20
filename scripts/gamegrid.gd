@@ -78,12 +78,35 @@ func squeezeAndMerge(direction: int) -> void:
 				tilesetCoordinates = getCoordinatesOfReverseRowWithYEqual(i)
 			kDownDirection:
 				tilesetCoordinates = getCoordinatesOfReverseColumnWithXEqual(i)
+		#####################################
+		var somethingChanged  = false
+		for idx in range(tilesetCoordinates.size()): # start at second element (via currentPointer) and shift upward
+			var currentChanged = false
+			var currentPointer = idx - 1
+			if !(null == allPawns[tilesetCoordinates[idx].x][tilesetCoordinates[idx].y]): # only move non-empty tiles
+				while currentPointer >= 0 && null == allPawns[tilesetCoordinates[currentPointer].x][tilesetCoordinates[currentPointer].y]:
+					#### TODO
+					# - put in separate function
+					#var currentPawn = allPawns[tilesetCoordinates[currentPointer+1].x][tilesetCoordinates[currentPointer+1].y]
+					#allPawns[tilesetCoordinates[currentPointer].x][tilesetCoordinates[currentPointer].y] = currentPawn
+					#allPawns[tilesetCoordinates[currentPointer+1].x][tilesetCoordinates[currentPointer+1].y] = null
+					currentPointer -= 1
+					somethingChanged = true
+					currentChanged = true
+				if currentChanged:
+					currentPointer += 1 # we have to revert the last decremt operation that was performed, as that was the cause for leaving the while-loop
+					var currentPawn = allPawns[tilesetCoordinates[idx].x][tilesetCoordinates[idx].y]
+					currentPawn.move(gridToPixelPosition(Vector2(tilesetCoordinates[currentPointer].x, tilesetCoordinates[currentPointer].y)))
+					allPawns[tilesetCoordinates[currentPointer].x][tilesetCoordinates[currentPointer].y] = currentPawn
+					allPawns[tilesetCoordinates[idx].x][tilesetCoordinates[idx].y] = null
+		#####################################
 		for tile in tilesetCoordinates:
-			printString += " (" + str(tile.x) + "," + str(tile.y) + ")"
+			var value = 0
+			if allPawns[tile.x][tile.y] != null:
+				value = allPawns[tile.x][tile.y].value
+			printString += " (" + str(tile.x) + "," + str(tile.y) + ") = " + str(value) + ","
 		printString += "\n"
 	print(printString)
-	#####################################
-	#####################################
 
 
 func _process(delta):
@@ -130,12 +153,15 @@ func _move_pawns_left():
 	print("LEFT")
 	squeezeAndMerge(kLeftDirection)
 
+func gridToPixelPosition(pixelCoordinates: Vector2) -> Vector2:
+	return (grid.get_node("tilemap").map_to_world(pixelCoordinates) + grid.position + tileSize/2)
+
 func addPawnAt(coordinates: Vector2, index: int) -> bool:
 	# x-coordinate is too big --> error
 	if allPawns.size() <= coordinates.x or allPawns.size() == 0:
 		return false
 	# y-coordinate is too big --> error
-	if typeof(allPawns[0]) != TYPE_ARRAY or  allPawns[0].size() <= coordinates.y or allPawns[0].size() == 0:
+	if typeof(allPawns[0]) != TYPE_ARRAY or allPawns[0].size() <= coordinates.y or allPawns[0].size() == 0:
 		return false
 	# index too big --> error
 	if possiblePawns.size() <= index:
@@ -146,7 +172,7 @@ func addPawnAt(coordinates: Vector2, index: int) -> bool:
 	# Add pawn
 	var piece = possiblePawns[index].instance()
 	add_child(piece)
-	piece.position = grid.get_node("tilemap").map_to_world(coordinates) + grid.position + tileSize/2
+	piece.position = gridToPixelPosition(coordinates)
 	allPawns[coordinates.x][coordinates.y] = piece
 	return true
 

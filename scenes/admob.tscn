@@ -42,6 +42,10 @@ margin_bottom = 136.0
 text = "REWARDED VIDEO RETURN"
 align = 1
 
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
+margin_right = 575.0
+margin_bottom = 103.0
+
 [connection signal="toggled" from="CanvasLayer/BtnBanner" to="." method="_on_BtnBanner_toggled"]
 [connection signal="pressed" from="CanvasLayer/BtnInterstitial" to="." method="_on_BtnInterstitial_pressed"]
 [connection signal="pressed" from="CanvasLayer/BtnRewardedVideo" to="." method="_on_BtnRewardedVideo_pressed"]
