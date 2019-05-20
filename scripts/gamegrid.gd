@@ -67,6 +67,7 @@ func squeezeAndMerge(direction: int) -> void:
 	else: if direction == kUpDirection or direction == kDownDirection:
 		iterationLimit = gridSize.y
 	var printString : String
+	var atLeastOneTileMoved  = false
 	for i in iterationLimit:
 		var tilesetCoordinates = []
 		match direction:
@@ -79,21 +80,17 @@ func squeezeAndMerge(direction: int) -> void:
 			kDownDirection:
 				tilesetCoordinates = getCoordinatesOfReverseColumnWithXEqual(i)
 		#####################################
-		var somethingChanged  = false
 		for idx in range(tilesetCoordinates.size()): # start at second element (via currentPointer) and shift upward
-			var currentChanged = false
+			var currentTileMoved = false
 			var currentPointer = idx - 1
 			if !(null == allPawns[tilesetCoordinates[idx].x][tilesetCoordinates[idx].y]): # only move non-empty tiles
 				while currentPointer >= 0 && null == allPawns[tilesetCoordinates[currentPointer].x][tilesetCoordinates[currentPointer].y]:
+					currentPointer -= 1
+					atLeastOneTileMoved = true
+					currentTileMoved = true
+				if currentTileMoved:
 					#### TODO
 					# - put in separate function
-					#var currentPawn = allPawns[tilesetCoordinates[currentPointer+1].x][tilesetCoordinates[currentPointer+1].y]
-					#allPawns[tilesetCoordinates[currentPointer].x][tilesetCoordinates[currentPointer].y] = currentPawn
-					#allPawns[tilesetCoordinates[currentPointer+1].x][tilesetCoordinates[currentPointer+1].y] = null
-					currentPointer -= 1
-					somethingChanged = true
-					currentChanged = true
-				if currentChanged:
 					currentPointer += 1 # we have to revert the last decremt operation that was performed, as that was the cause for leaving the while-loop
 					var currentPawn = allPawns[tilesetCoordinates[idx].x][tilesetCoordinates[idx].y]
 					# do the animation
@@ -102,13 +99,16 @@ func squeezeAndMerge(direction: int) -> void:
 					allPawns[tilesetCoordinates[currentPointer].x][tilesetCoordinates[currentPointer].y] = currentPawn
 					allPawns[tilesetCoordinates[idx].x][tilesetCoordinates[idx].y] = null
 		#####################################
-		for tile in tilesetCoordinates:
-			var value = 0
-			if allPawns[tile.x][tile.y] != null:
-				value = allPawns[tile.x][tile.y].value
-			printString += " (" + str(tile.x) + "," + str(tile.y) + ") = " + str(value) + ","
-		printString += "\n"
-	print(printString)
+#		for tile in tilesetCoordinates:
+#			var value = 0
+#			if allPawns[tile.x][tile.y] != null:
+#				value = allPawns[tile.x][tile.y].value
+#			printString += " (" + str(tile.x) + "," + str(tile.y) + ") = " + str(value) + ","
+#		printString += "\n"
+#	print(printString)
+	#####################################
+	if atLeastOneTileMoved:
+		addRandomPawn() # only add a new pawn, if some movement happened - if the player tried to perform a movement, that did not move any pawn, we should not add new tiles
 
 
 func _process(delta):
